@@ -73,32 +73,58 @@ export default function Overview() {
 
   return (
     <div className="space-y-6">
-      {/* Patent Technology Banner */}
-      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 rounded-xl p-4 text-white shadow-lg">
-        <div className="flex items-center justify-between flex-wrap gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-white/20 backdrop-blur rounded-lg flex items-center justify-center">
-              <ShieldCheckIcon className="w-7 h-7" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-lg font-bold">CDT Engine</h2>
-                <span className="px-2 py-0.5 bg-amber-400 text-amber-900 text-xs font-bold rounded-full">
-                  PATENT PENDING
-                </span>
+      {/* FinalBoss Trust Hero Banner */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl shadow-2xl border border-slate-700/50">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)', backgroundSize: '32px 32px'}}></div>
+        </div>
+
+        {/* Gradient Accent */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500"></div>
+
+        <div className="relative p-6">
+          <div className="flex items-center justify-between flex-wrap gap-6">
+            {/* Left - Branding */}
+            <div className="flex items-center gap-5">
+              <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/25">
+                <ShieldCheckIcon className="w-9 h-9 text-white" />
               </div>
-              <p className="text-blue-100 text-sm">
-                HMAC-Chained Cryptographic Consent Receipts with Epoch-Based Mass Revocation
-              </p>
+              <div>
+                <h2 className="text-2xl font-bold text-white tracking-tight">
+                  FinalBoss Trust
+                </h2>
+                <p className="text-slate-400 text-sm mt-0.5">
+                  Enterprise Consent Data Trail Platform
+                </p>
+                <div className="flex items-center gap-3 mt-2">
+                  <span className="px-2.5 py-1 bg-amber-500/20 border border-amber-500/30 text-amber-400 text-xs font-bold rounded-full">
+                    PATENT PENDING
+                  </span>
+                  <span className="text-xs text-slate-500">CDT Engine v2.1.0</span>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-3 text-sm">
-            <div className="text-right">
-              <p className="text-blue-200 text-xs">Developed by</p>
-              <p className="font-semibold">FinalBoss Tech / 805 AI</p>
-            </div>
-            <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-              <span className="text-blue-600 font-bold text-sm">FB</span>
+
+            {/* Right - Tech & Company */}
+            <div className="flex items-center gap-6">
+              {/* Technology */}
+              <div className="hidden lg:block text-right pr-6 border-r border-slate-700">
+                <p className="text-xs text-slate-500 uppercase tracking-wider">Core Technology</p>
+                <p className="text-sm text-slate-300 mt-1">HMAC-Chained Cryptographic Receipts</p>
+                <p className="text-xs text-slate-500 mt-0.5">Epoch-Based Mass Revocation</p>
+              </div>
+
+              {/* Company Badge */}
+              <div className="flex items-center gap-3">
+                <div>
+                  <p className="text-xs text-slate-500 text-right">Developed by</p>
+                  <p className="text-sm font-semibold text-white">805 AI</p>
+                </div>
+                <div className="w-11 h-11 bg-gradient-to-br from-violet-600 to-purple-700 rounded-lg flex items-center justify-center shadow-lg">
+                  <span className="text-white font-bold text-xs">805</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

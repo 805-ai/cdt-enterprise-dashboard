@@ -33,11 +33,16 @@ export default function Sidebar({ open }: SidebarProps) {
     >
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b border-gray-200 dark:border-slate-700">
-        <ShieldCheckIcon className="w-8 h-8 text-primary-600" />
+        <div className="w-9 h-9 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600 rounded-lg flex items-center justify-center shadow-lg">
+          <ShieldCheckIcon className="w-5 h-5 text-white" />
+        </div>
         {open && (
-          <span className="ml-3 text-xl font-bold text-gray-900 dark:text-white">
-            CDT Enterprise
-          </span>
+          <div className="ml-3">
+            <span className="text-lg font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent">
+              FinalBoss Trust
+            </span>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400 -mt-0.5">Consent Data Trail</p>
+          </div>
         )}
       </div>
 
@@ -64,32 +69,40 @@ export default function Sidebar({ open }: SidebarProps) {
 
       {/* Version & Branding */}
       {open && (
-        <div className="p-4 border-t border-gray-200 dark:border-slate-700">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-6 h-6 bg-gradient-to-br from-blue-600 to-purple-600 rounded flex items-center justify-center">
-              <span className="text-white text-xs font-bold">FB</span>
+        <div className="p-4 border-t border-gray-200 dark:border-slate-700 space-y-3">
+          {/* Patent Badge */}
+          <div className="px-3 py-2 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/20 border border-amber-200 dark:border-amber-700/50 rounded-lg">
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 bg-amber-500 rounded flex items-center justify-center">
+                <span className="text-white text-[10px] font-bold">P</span>
+              </div>
+              <span className="text-xs font-bold text-amber-700 dark:text-amber-400">
+                PATENT PENDING
+              </span>
             </div>
-            <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">
-              FinalBoss Tech
-            </span>
-          </div>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            CDT Engine v2.1.0
-          </p>
-          <p className="text-xs text-gray-400 dark:text-gray-500">
-            Enterprise Edition
-          </p>
-          <div className="mt-2 px-2 py-1 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded">
-            <p className="text-xs font-medium text-amber-700 dark:text-amber-400">
-              Patent Pending
-            </p>
-            <p className="text-[10px] text-amber-600 dark:text-amber-500">
-              HMAC-Chained Consent Receipts
+            <p className="text-[10px] text-amber-600 dark:text-amber-500 mt-1 leading-tight">
+              HMAC-Chained Cryptographic Consent Receipts
             </p>
           </div>
-          <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-2">
-            805 AI / FinalBoss Tech
-          </p>
+
+          {/* Version */}
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-gray-500 dark:text-gray-400">CDT Engine</span>
+            <span className="font-mono font-medium text-gray-700 dark:text-gray-300">v2.1.0</span>
+          </div>
+
+          {/* Company */}
+          <div className="pt-2 border-t border-gray-100 dark:border-slate-700">
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 bg-gradient-to-br from-violet-600 to-purple-600 rounded flex items-center justify-center">
+                <span className="text-white text-[8px] font-bold">805</span>
+              </div>
+              <div>
+                <p className="text-[10px] font-medium text-gray-600 dark:text-gray-300">805 AI / FinalBoss Tech</p>
+                <p className="text-[9px] text-gray-400 dark:text-gray-500">Enterprise Healthcare Solutions</p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </aside>
