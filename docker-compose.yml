@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  cdt-dashboard:
+    build: .
+    container_name: cdt-enterprise-dashboard
+    ports:
+      - "8080:80"
+    environment:
+      - HMAC_SECRET=${HMAC_SECRET:-cdt-enterprise-hmac-secret-32ch}
+      - JWT_SECRET=${JWT_SECRET:-cdt-enterprise-jwt-secret-key}
+      - DEMO_MODE=${DEMO_MODE:-true}
+    volumes:
+      - cdt-data:/data/db
+      - cdt-logs:/var/log/cdt
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  cdt-data:
+    driver: local
+  cdt-logs:
+    driver: local

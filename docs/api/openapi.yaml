@@ -1,0 +1,699 @@
+openapi: 3.0.3
+info:
+  title: CDT Enterprise Dashboard API
+  description: |
+    API for CDT Enterprise Turnkey Dashboard.
+    Provides permit issuance, receipt management, chain verification,
+    epoch control, benchmarking, and audit logging.
+  version: 1.0.0
+  contact:
+    name: FinalBossTech
+    email: support@finalbosstech.com
+
+servers:
+  - url: http://localhost:3001
+    description: Local development
+
+security:
+  - BearerAuth: []
+  - HMACAuth: []
+
+paths:
+  /api/health:
+    get:
+      tags: [Health]
+      summary: Health check
+      security: []
+      responses:
+        '200':
+          description: Service healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /api/permits/issue:
+    post:
+      tags: [Permits]
+      summary: Issue multiple permits
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssuePermitsRequest'
+      responses:
+        '200':
+          description: Permits issued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IssuePermitsResponse'
+
+  /api/receipts/generate:
+    post:
+      tags: [Receipts]
+      summary: Generate receipts (chained)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateReceiptsRequest'
+      responses:
+        '200':
+          description: Receipts generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateReceiptsResponse'
+
+  /api/receipts/verify:
+    post:
+      tags: [Receipts]
+      summary: Verify receipts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyReceiptsRequest'
+      responses:
+        '200':
+          description: Verification results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyReceiptsResponse'
+
+  /api/receipts/search:
+    get:
+      tags: [Receipts]
+      summary: Search receipts
+      parameters:
+        - name: receipt_id
+          in: query
+          schema:
+            type: string
+        - name: permit_id
+          in: query
+          schema:
+            type: string
+        - name: action
+          in: query
+          schema:
+            type: string
+        - name: epoch
+          in: query
+          schema:
+            type: integer
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: Paginated receipts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchReceiptsResponse'
+
+  /api/receipts/{id}:
+    get:
+      tags: [Receipts]
+      summary: Get receipt by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Receipt details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptDetail'
+
+  /api/chain/verify:
+    post:
+      tags: [Chain]
+      summary: Verify chain integrity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyChainRequest'
+      responses:
+        '200':
+          description: Chain verification result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyChainResponse'
+
+  /api/chain/stats:
+    get:
+      tags: [Chain]
+      summary: Get chain statistics
+      responses:
+        '200':
+          description: Chain stats
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChainStats'
+
+  /api/epoch/current:
+    get:
+      tags: [Epoch]
+      summary: Get current epoch
+      responses:
+        '200':
+          description: Current epoch info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EpochInfo'
+
+  /api/epoch/bump:
+    post:
+      tags: [Epoch]
+      summary: Bump epoch (revoke all)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BumpEpochRequest'
+      responses:
+        '200':
+          description: Epoch bumped
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BumpEpochResponse'
+
+  /api/benchmarks/upload:
+    post:
+      tags: [Benchmarks]
+      summary: Upload benchmark results
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenchmarkUpload'
+      responses:
+        '200':
+          description: Benchmark stored
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenchmarkUploadResponse'
+
+  /api/benchmarks/latest:
+    get:
+      tags: [Benchmarks]
+      summary: Get latest benchmark
+      responses:
+        '200':
+          description: Latest benchmark data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenchmarkData'
+
+  /api/audit/logs:
+    get:
+      tags: [Audit]
+      summary: Get audit logs
+      parameters:
+        - name: event_type
+          in: query
+          schema:
+            type: string
+        - name: user_id
+          in: query
+          schema:
+            type: string
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: Audit logs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditLogsResponse'
+
+  /api/metrics:
+    get:
+      tags: [Metrics]
+      summary: Get real-time metrics
+      responses:
+        '200':
+          description: Current metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsResponse'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    HMACAuth:
+      type: apiKey
+      in: header
+      name: X-HMAC-Signature
+
+  schemas:
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [ok, degraded, error]
+        timestamp:
+          type: string
+          format: date-time
+        version:
+          type: string
+
+    IssuePermitsRequest:
+      type: object
+      required: [count]
+      properties:
+        count:
+          type: integer
+          minimum: 1
+          maximum: 10000
+        metadata:
+          type: object
+
+    IssuePermitsResponse:
+      type: object
+      properties:
+        permits:
+          type: array
+          items:
+            $ref: '#/components/schemas/Permit'
+        stats:
+          $ref: '#/components/schemas/OperationStats'
+
+    Permit:
+      type: object
+      properties:
+        permit_id:
+          type: string
+        tenant_id:
+          type: string
+        requester_id:
+          type: string
+        epoch:
+          type: integer
+        issued_at:
+          type: string
+          format: date-time
+        expires_at:
+          type: string
+          format: date-time
+
+    GenerateReceiptsRequest:
+      type: object
+      required: [count]
+      properties:
+        count:
+          type: integer
+          minimum: 1
+          maximum: 100000
+        chained:
+          type: boolean
+          default: true
+        action:
+          type: string
+          default: INFERENCE_RUN
+        metadata:
+          type: object
+
+    GenerateReceiptsResponse:
+      type: object
+      properties:
+        receipts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Receipt'
+        stats:
+          $ref: '#/components/schemas/OperationStats'
+
+    Receipt:
+      type: object
+      properties:
+        receipt_id:
+          type: string
+        permit_id:
+          type: string
+        action:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        epoch:
+          type: integer
+        prev_hash:
+          type: string
+        hash:
+          type: string
+        signature:
+          type: string
+        metadata:
+          type: object
+
+    ReceiptDetail:
+      allOf:
+        - $ref: '#/components/schemas/Receipt'
+        - type: object
+          properties:
+            verification_status:
+              type: string
+              enum: [valid, invalid, pending]
+            chain_position:
+              type: integer
+
+    VerifyReceiptsRequest:
+      type: object
+      properties:
+        receipt_ids:
+          type: array
+          items:
+            type: string
+        range:
+          type: object
+          properties:
+            start:
+              type: integer
+            end:
+              type: integer
+        all:
+          type: boolean
+          default: false
+
+    VerifyReceiptsResponse:
+      type: object
+      properties:
+        valid:
+          type: integer
+        invalid:
+          type: integer
+        stats:
+          $ref: '#/components/schemas/OperationStats'
+        failures:
+          type: array
+          items:
+            $ref: '#/components/schemas/VerificationFailure'
+
+    VerificationFailure:
+      type: object
+      properties:
+        receipt_id:
+          type: string
+        reason:
+          type: string
+          enum: [hash_mismatch, signature_invalid, chain_broken, epoch_mismatch]
+
+    SearchReceiptsResponse:
+      type: object
+      properties:
+        receipts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Receipt'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        has_more:
+          type: boolean
+
+    VerifyChainRequest:
+      type: object
+      properties:
+        window_start:
+          type: integer
+        window_end:
+          type: integer
+        full:
+          type: boolean
+          default: true
+
+    VerifyChainResponse:
+      type: object
+      properties:
+        valid:
+          type: boolean
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChainError'
+        stats:
+          $ref: '#/components/schemas/ChainVerifyStats'
+
+    ChainError:
+      type: object
+      properties:
+        index:
+          type: integer
+        receipt_id:
+          type: string
+        error:
+          type: string
+
+    ChainVerifyStats:
+      type: object
+      properties:
+        checked:
+          type: integer
+        valid:
+          type: integer
+        invalid:
+          type: integer
+        duration_ms:
+          type: number
+
+    ChainStats:
+      type: object
+      properties:
+        length:
+          type: integer
+        head_hash:
+          type: string
+        tail_hash:
+          type: string
+        current_epoch:
+          type: integer
+        last_verified:
+          type: string
+          format: date-time
+
+    EpochInfo:
+      type: object
+      properties:
+        epoch:
+          type: integer
+        last_bumped_at:
+          type: string
+          format: date-time
+        last_bumped_by:
+          type: string
+        bump_reason:
+          type: string
+
+    BumpEpochRequest:
+      type: object
+      required: [reason, requested_by]
+      properties:
+        reason:
+          type: string
+          minLength: 10
+        requested_by:
+          type: string
+
+    BumpEpochResponse:
+      type: object
+      properties:
+        old_epoch:
+          type: integer
+        new_epoch:
+          type: integer
+        revoked_count:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+
+    BenchmarkUpload:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: object
+        name:
+          type: string
+
+    BenchmarkUploadResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        stored_at:
+          type: string
+          format: date-time
+
+    BenchmarkData:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        uploaded_at:
+          type: string
+          format: date-time
+        metrics:
+          $ref: '#/components/schemas/BenchmarkMetrics'
+        raw:
+          type: object
+
+    BenchmarkMetrics:
+      type: object
+      properties:
+        permit_throughput:
+          type: number
+        receipt_throughput:
+          type: number
+        verify_throughput:
+          type: number
+        p50_latency_ms:
+          type: number
+        p95_latency_ms:
+          type: number
+        p99_latency_ms:
+          type: number
+        chain_length:
+          type: integer
+        chain_valid:
+          type: boolean
+
+    AuditLogsResponse:
+      type: object
+      properties:
+        logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditLogEntry'
+        total:
+          type: integer
+        page:
+          type: integer
+
+    AuditLogEntry:
+      type: object
+      properties:
+        id:
+          type: string
+        event_type:
+          type: string
+          enum: [PERMIT_ISSUED, RECEIPT_GENERATED, RECEIPT_VERIFIED, CHAIN_VERIFIED, EPOCH_BUMPED, USER_LOGIN, SETTINGS_CHANGED]
+        user_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        details:
+          type: object
+        ip_address:
+          type: string
+
+    MetricsResponse:
+      type: object
+      properties:
+        permits_total:
+          type: integer
+        receipts_total:
+          type: integer
+        current_epoch:
+          type: integer
+        chain_valid:
+          type: boolean
+        permits_per_sec:
+          type: number
+        receipts_per_sec:
+          type: number
+        verify_per_sec:
+          type: number
+        error_count:
+          type: integer
+        uptime_seconds:
+          type: number
+
+    OperationStats:
+      type: object
+      properties:
+        count:
+          type: integer
+        duration_ms:
+          type: number
+        throughput:
+          type: number
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        code:
+          type: string
+        details:
+          type: object
