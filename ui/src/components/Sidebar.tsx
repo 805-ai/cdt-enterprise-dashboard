@@ -62,14 +62,33 @@ export default function Sidebar({ open }: SidebarProps) {
         ))}
       </nav>
 
-      {/* Version */}
+      {/* Version & Branding */}
       {open && (
         <div className="p-4 border-t border-gray-200 dark:border-slate-700">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-6 h-6 bg-gradient-to-br from-blue-600 to-purple-600 rounded flex items-center justify-center">
+              <span className="text-white text-xs font-bold">FB</span>
+            </div>
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+              FinalBoss Tech
+            </span>
+          </div>
           <p className="text-xs text-gray-500 dark:text-gray-400">
             CDT Engine v2.1.0
           </p>
           <p className="text-xs text-gray-400 dark:text-gray-500">
             Enterprise Edition
+          </p>
+          <div className="mt-2 px-2 py-1 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded">
+            <p className="text-xs font-medium text-amber-700 dark:text-amber-400">
+              Patent Pending
+            </p>
+            <p className="text-[10px] text-amber-600 dark:text-amber-500">
+              HMAC-Chained Consent Receipts
+            </p>
+          </div>
+          <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-2">
+            805 AI / FinalBoss Tech
           </p>
         </div>
       )}

@@ -73,6 +73,37 @@ export default function Overview() {
 
   return (
     <div className="space-y-6">
+      {/* Patent Technology Banner */}
+      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 rounded-xl p-4 text-white shadow-lg">
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-white/20 backdrop-blur rounded-lg flex items-center justify-center">
+              <ShieldCheckIcon className="w-7 h-7" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold">CDT Engine</h2>
+                <span className="px-2 py-0.5 bg-amber-400 text-amber-900 text-xs font-bold rounded-full">
+                  PATENT PENDING
+                </span>
+              </div>
+              <p className="text-blue-100 text-sm">
+                HMAC-Chained Cryptographic Consent Receipts with Epoch-Based Mass Revocation
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 text-sm">
+            <div className="text-right">
+              <p className="text-blue-200 text-xs">Developed by</p>
+              <p className="font-semibold">FinalBoss Tech / 805 AI</p>
+            </div>
+            <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+              <span className="text-blue-600 font-bold text-sm">FB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
